@@ -19,6 +19,9 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/rabbit/**")
+                                .hasAuthority("APPROLE_Admin")
+
                         .anyRequest().authenticated())
                 .with(AadResourceServerHttpSecurityConfigurer.aadResourceServer(),
                         Customizer.withDefaults())

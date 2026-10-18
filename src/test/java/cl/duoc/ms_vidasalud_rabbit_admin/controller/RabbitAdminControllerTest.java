@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -56,9 +57,20 @@ class RabbitAdminControllerTest {
     }
 
     @Test
+    void sinRolAdminResponde403() throws Exception {
+        mockMvc.perform(post("/api/rabbit/queues")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("APPROLE_Operador")))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"nombre\": \"q.test.demo\"}"))
+                .andExpect(status().isForbidden());
+
+        verify(rabbitAdminService, never()).crearCola(any());
+    }
+
+    @Test
     void crearColaConNombreVacioResponde400() throws Exception {
         mockMvc.perform(post("/api/rabbit/queues")
-                        .with(jwt())
+                        .with(jwt().authorities(new SimpleGrantedAuthority("APPROLE_Admin")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nombre\": \"\"}"))
                 .andExpect(status().isBadRequest())
@@ -70,7 +82,7 @@ class RabbitAdminControllerTest {
     @Test
     void crearExchangeConTipoInvalidoResponde400() throws Exception {
         mockMvc.perform(post("/api/rabbit/exchanges")
-                        .with(jwt())
+                        .with(jwt().authorities(new SimpleGrantedAuthority("APPROLE_Admin")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nombre\": \"ex.x\", \"tipo\": \"XYZ\"}"))
                 .andExpect(status().isBadRequest())
@@ -83,7 +95,7 @@ class RabbitAdminControllerTest {
     @Test
     void crearColaValidaResponde201() throws Exception {
         mockMvc.perform(post("/api/rabbit/queues")
-                        .with(jwt())
+                        .with(jwt().authorities(new SimpleGrantedAuthority("APPROLE_Admin")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nombre\": \"q.test.demo\"}"))
                 .andExpect(status().isCreated())

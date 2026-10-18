@@ -22,14 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-/**
- * Administra colas, exchanges y bindings de RabbitMQ a través de {@link AmqpAdmin}.
- * <p>
- * Cada método valida en este orden: 400 (nombre reservado o vacío), 409 (recurso protegido)
- * y por último 404/409 según exista o no el recurso en el broker. Los recursos protegidos se
- * leen de {@code vidasalud.rabbit.protegidas}. Los errores del broker ({@link AmqpException})
- * se propagan y los traduce {@code ManejadorErrores}.
- */
+
 @Service
 public class RabbitAdminService {
 
