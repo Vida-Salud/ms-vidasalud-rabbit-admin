@@ -20,6 +20,10 @@ spring:
   mvc:
     problemdetails:
       enabled: true
+    apiversion:
+      use:
+        path-segment: 1   # /api/{version}/...
+      supported: 1
 
   rabbitmq:
     # Nodos del clúster RabbitMQ (host:puerto separados por coma). Si el nodo actual cae,
