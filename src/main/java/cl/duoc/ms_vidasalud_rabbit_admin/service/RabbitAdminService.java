@@ -17,7 +17,6 @@ import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -31,15 +30,19 @@ public class RabbitAdminService {
     /** Prefijo que RabbitMQ reserva para sus propios recursos. */
     private static final String PREFIJO_RESERVADO = "amq.";
 
-    @Autowired
-    private AmqpAdmin amqpAdmin;
+    private final AmqpAdmin amqpAdmin;
 
     /** Solo se usa para la declaración pasiva que verifica si un exchange existe. */
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
-    @Autowired
-    private RabbitAdminProperties properties;
+    private final RabbitAdminProperties properties;
+
+    public RabbitAdminService(AmqpAdmin amqpAdmin, RabbitTemplate rabbitTemplate,
+                              RabbitAdminProperties properties) {
+        this.amqpAdmin = amqpAdmin;
+        this.rabbitTemplate = rabbitTemplate;
+        this.properties = properties;
+    }
 
     public void crearCola(CrearColaRequest request) {
         String nombre = request.nombre();

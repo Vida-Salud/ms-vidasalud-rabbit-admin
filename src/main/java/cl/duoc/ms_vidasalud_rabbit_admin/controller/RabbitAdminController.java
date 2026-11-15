@@ -5,7 +5,6 @@ import cl.duoc.ms_vidasalud_rabbit_admin.dto.CrearColaRequest;
 import cl.duoc.ms_vidasalud_rabbit_admin.dto.CrearExchangeRequest;
 import cl.duoc.ms_vidasalud_rabbit_admin.service.RabbitAdminService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,8 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/rabbit")
 public class RabbitAdminController {
 
-    @Autowired
-    private RabbitAdminService rabbitAdminService;
+    private final RabbitAdminService rabbitAdminService;
+
+    public RabbitAdminController(RabbitAdminService rabbitAdminService) {
+        this.rabbitAdminService = rabbitAdminService;
+    }
 
     @PostMapping("/queues")
     public ResponseEntity<CrearColaRequest> crearCola(@Valid @RequestBody CrearColaRequest request) {
