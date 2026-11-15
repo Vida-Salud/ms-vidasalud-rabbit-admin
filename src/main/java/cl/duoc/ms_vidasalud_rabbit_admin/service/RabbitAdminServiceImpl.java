@@ -106,11 +106,11 @@ public class RabbitAdminServiceImpl implements RabbitAdminService {
      */
     @Override
     public void crearBinding(CrearBindingRequest request) {
-        validarExistenAmbos(request.exchange(), request.cola());
+        validarExistenAmbos(request.exchange(), request.queue());
 
-        amqpAdmin.declareBinding(toBinding(request.exchange(), request.cola(), request.routingKey()));
+        amqpAdmin.declareBinding(toBinding(request.exchange(), request.queue(), request.routingKey()));
         log.info("Binding creado [exchange={}, cola={}, routingKey={}]",
-                request.exchange(), request.cola(), request.routingKey());
+                request.exchange(), request.queue(), request.routingKey());
     }
 
     /**

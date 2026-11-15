@@ -34,25 +34,25 @@ class RabbitAdminControllerTest {
 
     @Test
     void sinTokenResponde401() throws Exception {
-        mockMvc.perform(post("/api/rabbit/queues")
+        mockMvc.perform(post("/api/v1/rabbit/queues")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nombre\": \"q.test.demo\"}"))
                 .andExpect(status().isUnauthorized());
-        mockMvc.perform(delete("/api/rabbit/queues/q.test.demo"))
+        mockMvc.perform(delete("/api/v1/rabbit/queues/q.test.demo"))
                 .andExpect(status().isUnauthorized());
-        mockMvc.perform(post("/api/rabbit/exchanges")
+        mockMvc.perform(post("/api/v1/rabbit/exchanges")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nombre\": \"ex.x\", \"tipo\": \"TOPIC\"}"))
                 .andExpect(status().isUnauthorized());
-        mockMvc.perform(delete("/api/rabbit/exchanges/ex.x"))
+        mockMvc.perform(delete("/api/v1/rabbit/exchanges/ex.x"))
                 .andExpect(status().isUnauthorized());
-        mockMvc.perform(post("/api/rabbit/bindings")
+        mockMvc.perform(post("/api/v1/rabbit/bindings")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"exchange\": \"ex.x\", \"cola\": \"q.test.demo\", \"routingKey\": \"\"}"))
+                        .content("{\"exchange\": \"ex.x\", \"queue\": \"q.test.demo\", \"routingKey\": \"\"}"))
                 .andExpect(status().isUnauthorized());
-        mockMvc.perform(delete("/api/rabbit/bindings")
+        mockMvc.perform(delete("/api/v1/rabbit/bindings")
                         .param("exchange", "ex.x")
-                        .param("cola", "q.test.demo"))
+                        .param("queue", "q.test.demo"))
                 .andExpect(status().isUnauthorized());
 
         verify(rabbitAdminService, never()).crearCola(any());
@@ -60,7 +60,7 @@ class RabbitAdminControllerTest {
 
     @Test
     void sinRolAdminResponde403() throws Exception {
-        mockMvc.perform(post("/api/rabbit/queues")
+        mockMvc.perform(post("/api/v1/rabbit/queues")
                         .with(jwt().authorities(new SimpleGrantedAuthority("APPROLE_Operador")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nombre\": \"q.test.demo\"}"))
@@ -71,7 +71,7 @@ class RabbitAdminControllerTest {
 
     @Test
     void crearColaConNombreVacioResponde400() throws Exception {
-        mockMvc.perform(post("/api/rabbit/queues")
+        mockMvc.perform(post("/api/v1/rabbit/queues")
                         .with(jwt().authorities(new SimpleGrantedAuthority("APPROLE_Admin")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nombre\": \"\"}"))
@@ -83,7 +83,7 @@ class RabbitAdminControllerTest {
 
     @Test
     void crearExchangeConTipoInvalidoResponde400() throws Exception {
-        mockMvc.perform(post("/api/rabbit/exchanges")
+        mockMvc.perform(post("/api/v1/rabbit/exchanges")
                         .with(jwt().authorities(new SimpleGrantedAuthority("APPROLE_Admin")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nombre\": \"ex.x\", \"tipo\": \"XYZ\"}"))
@@ -96,7 +96,7 @@ class RabbitAdminControllerTest {
 
     @Test
     void crearColaValidaResponde201() throws Exception {
-        mockMvc.perform(post("/api/rabbit/queues")
+        mockMvc.perform(post("/api/v1/rabbit/queues")
                         .with(jwt().authorities(new SimpleGrantedAuthority("APPROLE_Admin")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"nombre\": \"q.test.demo\"}"))

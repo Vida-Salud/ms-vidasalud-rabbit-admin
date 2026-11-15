@@ -15,7 +15,7 @@ public record CrearBindingRequest(
         @NotBlank(message = "La cola es obligatoria")
         @Pattern(regexp = "^[a-zA-Z0-9._-]{1,200}$",
                 message = "La cola solo admite letras, números, punto, guion y guion bajo (máximo 200 caracteres)")
-        String cola,
+        String queue,
 
         /** Puede ser "" (los exchanges fanout ignoran la routing key). */
         @NotNull(message = "La routing key es obligatoria (puede ser vacía)")

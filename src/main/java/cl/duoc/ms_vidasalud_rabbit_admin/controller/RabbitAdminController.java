@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * responden 201 con el mismo request como body; los DELETE responden 204 sin body.
  */
 @RestController
-@RequestMapping("/api/rabbit")
+@RequestMapping("/api/{version}/rabbit")
 public class RabbitAdminController {
 
     private final RabbitAdminService rabbitAdminService;
@@ -65,10 +65,10 @@ public class RabbitAdminController {
     @DeleteMapping("/bindings")
     public ResponseEntity<Void> eliminarBinding(
             @RequestParam String exchange,
-            @RequestParam String cola,
+            @RequestParam String queue,
             @RequestParam(defaultValue = "") String routingKey) {
 
-        rabbitAdminService.eliminarBinding(exchange, cola, routingKey);
+        rabbitAdminService.eliminarBinding(exchange, queue, routingKey);
         return ResponseEntity.noContent().build();
     }
 }
