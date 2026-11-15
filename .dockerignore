@@ -6,3 +6,5 @@ target
 mvnw
 mvnw.cmd
 HELP.md
+
+.env

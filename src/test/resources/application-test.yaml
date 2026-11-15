@@ -1,0 +1,10 @@
+spring:
+  rabbitmq:
+    password: solo-para-tests
+  cloud:
+    azure:
+      active-directory:
+        profile:
+          tenant-id: 9832f4f3-52dd-4367-a3b0-b4437d223f58
+        credential:
+          client-id: c0093a05-7296-42f7-b6e7-d263c3db2fb0

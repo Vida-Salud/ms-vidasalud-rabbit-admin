@@ -36,3 +36,5 @@ build/
 .idea/
 .claude/
 .github/modernize/
+
+.env
