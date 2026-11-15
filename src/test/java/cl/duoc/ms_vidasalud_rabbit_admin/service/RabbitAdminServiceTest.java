@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.amqp.core.AmqpAdmin;
@@ -14,7 +13,6 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueInformation;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -40,7 +38,6 @@ class RabbitAdminServiceTest {
     @Mock
     private RabbitTemplate rabbitTemplate;
 
-    @InjectMocks
     private RabbitAdminService service;
 
     @BeforeEach
@@ -49,7 +46,7 @@ class RabbitAdminServiceTest {
                 "q.cmd.email", "q.cmd.admission", "q.cmd.record",
                 "q.cmd.email.dlq", "q.cmd.admission.dlq", "q.cmd.record.dlq",
                 "cmd.direct", "cmd.topic", "cmd.fanout", "cmd.dead.dlx"));
-        ReflectionTestUtils.setField(service, "properties", properties);
+        service = new RabbitAdminService(amqpAdmin, rabbitTemplate, properties);
     }
 
     @Test
