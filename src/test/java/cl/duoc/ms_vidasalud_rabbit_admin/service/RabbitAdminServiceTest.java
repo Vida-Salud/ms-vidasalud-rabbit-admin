@@ -46,7 +46,7 @@ class RabbitAdminServiceTest {
                 "q.cmd.email", "q.cmd.admission", "q.cmd.record",
                 "q.cmd.email.dlq", "q.cmd.admission.dlq", "q.cmd.record.dlq",
                 "cmd.direct", "cmd.topic", "cmd.fanout", "cmd.dead.dlx"));
-        service = new RabbitAdminService(amqpAdmin, rabbitTemplate, properties);
+        service = new RabbitAdminServiceImpl(amqpAdmin, rabbitTemplate, properties);
     }
 
     @Test
