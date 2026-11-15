@@ -11,8 +11,11 @@ FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
 ENV TZ=America/Santiago
+RUN addgroup -S app && adduser -S app -G app
 
-COPY --from=build /app/target/ms-vidasalud-rabbit-admin-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/ms-vidasalud-rabbit-admin-*.jar app.jar
+
+USER app
 
 EXPOSE 8093
 
